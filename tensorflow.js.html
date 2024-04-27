@@ -1,9 +1,9 @@
 <body>
     <div class="container">
-        <div class="font">Teachable Machine Image Model</div>
+        <div class="font title">Sign Language Interpreter</div>
         <button class="buttonClass" type="button" onclick="init()">Start</button>
         <link rel="stylesheet" href="tensorflow.css">
-        <div id="webcam-container" class="webcam"></div>
+        <div id="webcam-container" class="hide"></div>
         <div id="label-container" class="font"></div>
         <button class="buttonClass" type="button" onclick="predict()">Predict</button> <br>
         <button class="buttonClass" type="button" onclick="clearPrediction()">Clear</button>
@@ -45,6 +45,8 @@
 
         // append elements to the DOM
         document.getElementById("webcam-container").appendChild(webcam.canvas);
+        // make webcam div visible
+        document.getElementById("webcam-container").className="webcam";
         labelContainer = document.getElementById("label-container");
     }
 

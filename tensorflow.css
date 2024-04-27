@@ -10,21 +10,48 @@ body {
 .container {
     background-color: rgb(93, 113, 135);
     padding: 18px;
-    border: 2px solid black;
+    border: 3px solid black;
     border-radius: 8px;
 }
 
+
+/* needed to hide the webcam otherwise the outline looked ugly */
+.hide {
+    visibility: hidden;
+}
+
+.webcam {
+    border: 2px solid black;
+    visibility: visible;
+}
+
+.title {
+    font-weight: bold;
+}
+
 .font {
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 24px;
-    height: 26px;
+    height: 28px;
     text-align: center;
-    padding: 14px;
+    padding: 8px;
 }
 
 .buttonClass {
-    display: flex;
-    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 2px;
     background-color: rgb(123, 181, 248);
-    margin: 0 auto;
-    padding: 4px;
+    margin: 4px auto;
+    height: 40px;
+    width: 25%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    transition-duration: 0.5s;
+}
+
+.buttonClass:hover {
+    background-color: rgb(86, 127, 175);
 }
