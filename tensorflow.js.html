@@ -3,6 +3,8 @@
 <link rel="stylesheet" href="tensorflow.css">
 <div id="webcam-container"></div>
 <div id="label-container" class="results"></div>
+<button class="buttonClass" type="button" onclick="predict()">Predict</button>
+<button class="buttonClass" type="button" onclick="clear()">Clear</button>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 <script type="text/javascript">
@@ -11,7 +13,16 @@
 
     // the link to your model provided by Teachable Machine export panel
     const URL = "https://teachablemachine.withgoogle.com/models/5-JlG-jnO/";
+    
+    //extra boolean
+    // this assists in printing the characters provided
+    // in order to not make the program print the same character infinitely
+    // essentially a "switch" that keeps it from doing so
+    // switch turns off when program sees nothing, allows it to print a space
+    // essentially, is "true" when "cursor" is on an empty space
     let empty = true;
+
+    let classPrediction = "";
 
     let model, webcam, labelContainer, maxPredictions;
 
@@ -37,14 +48,15 @@
         // append elements to the DOM
         document.getElementById("webcam-container").appendChild(webcam.canvas);
         labelContainer = document.getElementById("label-container");
+        /*
         for (let i = 0; i < maxPredictions; i++) { // and class labels
             labelContainer.appendChild(document.createElement("div"));
-        }
+        } */
     }
 
     async function loop() {
         webcam.update(); // update the webcam frame
-        await predict();
+        //await predict();
         window.requestAnimationFrame(loop);
     }
 
@@ -53,11 +65,20 @@
         // predict can take in an image, video or canvas html element
         const prediction = await model.predict(webcam.canvas);
         for (let i = 0; i < maxPredictions; i++) {
-            let classPrediction = "";
-            if (prediction[i].probability.toFixed(2) > .85) {
-                classPrediction = prediction[i].className;
+            if (i != 3 && prediction[i].probability.toFixed(2) > .6) {
+                classPrediction = "" + classPrediction + prediction[i].className;
+            } else if (prediction[3].probability.toFixed(2) > .8) {
+                classPrediction = "" + classPrediction + " ";
             }
-            labelContainer.childNodes[i].innerHTML = classPrediction;
-        }
+            //labelContainer.childNodes[i].innerHTML = classPrediction;
+            labelContainer.innerHTML = classPrediction;
+        } 
+    }
+
+    //clears the printed message
+    async function clear() {
+        empty = true;
+        classPrediction = "";
+        labelContainer.innerHTML = "";
     }
 </script>
