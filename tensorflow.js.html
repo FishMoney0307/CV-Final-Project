@@ -4,7 +4,7 @@
 <div id="webcam-container"></div>
 <div id="label-container" class="results"></div>
 <button class="buttonClass" type="button" onclick="predict()">Predict</button>
-<button class="buttonClass" type="button" onclick="clear()">Clear</button>
+<button class="buttonClass" type="button" onclick="clearPrediction()">Clear</button>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 <script type="text/javascript">
@@ -13,14 +13,6 @@
 
     // the link to your model provided by Teachable Machine export panel
     const URL = "https://teachablemachine.withgoogle.com/models/5-JlG-jnO/";
-    
-    //extra boolean
-    // this assists in printing the characters provided
-    // in order to not make the program print the same character infinitely
-    // essentially a "switch" that keeps it from doing so
-    // switch turns off when program sees nothing, allows it to print a space
-    // essentially, is "true" when "cursor" is on an empty space
-    let empty = true;
 
     let classPrediction = "";
 
@@ -48,6 +40,7 @@
         // append elements to the DOM
         document.getElementById("webcam-container").appendChild(webcam.canvas);
         labelContainer = document.getElementById("label-container");
+        labelContainer.innerHTML = " "; //allocate space for the results
         /*
         for (let i = 0; i < maxPredictions; i++) { // and class labels
             labelContainer.appendChild(document.createElement("div"));
@@ -64,21 +57,23 @@
     async function predict() {
         // predict can take in an image, video or canvas html element
         const prediction = await model.predict(webcam.canvas);
+
+        // boolean for when printing a blank space, otherwise sometimes fails
+        let blank = true;
         for (let i = 0; i < maxPredictions; i++) {
             if (i != 3 && prediction[i].probability.toFixed(2) > .6) {
                 classPrediction = "" + classPrediction + prediction[i].className;
-            } else if (prediction[3].probability.toFixed(2) > .8) {
-                classPrediction = "" + classPrediction + " ";
+                blank = false;
             }
-            //labelContainer.childNodes[i].innerHTML = classPrediction;
-            labelContainer.innerHTML = classPrediction;
         } 
+        if (blank) {classPrediction = "" + classPrediction + " ";}
+        labelContainer.innerHTML = classPrediction;
     }
 
     //clears the printed message
-    async function clear() {
-        empty = true;
+    //FUNCTION CAN'T BE NAMED CLEAR FOR SOME REASON
+    async function clearPrediction() {
         classPrediction = "";
-        labelContainer.innerHTML = "";
+        document.getElementById("label-container").innerHTML = " ";
     }
 </script>
