@@ -17,9 +17,9 @@
     // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
 
     // the link to your model provided by Teachable Machine export panel
-    const URL = "https://teachablemachine.withgoogle.com/models/5-JlG-jnO/";
+    const URL = "https://teachablemachine.withgoogle.com/models/ooxcqjLf8/";
 
-    //instantiated out here for constant printing
+    //instantiated out here for constant updates
     let classPrediction = "";
 
     let model, webcam, labelContainer, maxPredictions;
@@ -63,8 +63,8 @@
 
         // boolean for when printing a blank space, otherwise sometimes fails
         let blank = true;
-        for (let i = 0; i < maxPredictions; i++) {
-            if (i != 3 && prediction[i].probability.toFixed(2) > .6) {
+        for (let i = 1; i < maxPredictions; i++) {
+            if (prediction[i].probability.toFixed(2) > .6) { //start at 1, neutral is 0
                 classPrediction = "" + classPrediction + prediction[i].className;
                 blank = false;
             }
