@@ -1,10 +1,15 @@
-<div>Teachable Machine Image Model</div>
-<button class="buttonClass" type="button" onclick="init()">Start</button>
-<link rel="stylesheet" href="tensorflow.css">
-<div id="webcam-container"></div>
-<div id="label-container" class="results"></div>
-<button class="buttonClass" type="button" onclick="predict()">Predict</button>
-<button class="buttonClass" type="button" onclick="clearPrediction()">Clear</button>
+<body>
+    <div class="container">
+        <div class="font">Teachable Machine Image Model</div>
+        <button class="buttonClass" type="button" onclick="init()">Start</button>
+        <link rel="stylesheet" href="tensorflow.css">
+        <div id="webcam-container" class="webcam"></div>
+        <div id="label-container" class="font"></div>
+        <button class="buttonClass" type="button" onclick="predict()">Predict</button> <br>
+        <button class="buttonClass" type="button" onclick="clearPrediction()">Clear</button>
+    </div>
+</body>
+
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 <script type="text/javascript">
@@ -14,6 +19,7 @@
     // the link to your model provided by Teachable Machine export panel
     const URL = "https://teachablemachine.withgoogle.com/models/5-JlG-jnO/";
 
+    //instantiated out here for constant printing
     let classPrediction = "";
 
     let model, webcam, labelContainer, maxPredictions;
@@ -32,7 +38,7 @@
 
         // Convenience function to setup a webcam
         const flip = true; // whether to flip the webcam
-        webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+        webcam = new tmImage.Webcam(400, 400, flip); // width, height, flip
         await webcam.setup(); // request access to the webcam
         await webcam.play();
         window.requestAnimationFrame(loop);
@@ -40,11 +46,6 @@
         // append elements to the DOM
         document.getElementById("webcam-container").appendChild(webcam.canvas);
         labelContainer = document.getElementById("label-container");
-        labelContainer.innerHTML = " "; //allocate space for the results
-        /*
-        for (let i = 0; i < maxPredictions; i++) { // and class labels
-            labelContainer.appendChild(document.createElement("div"));
-        } */
     }
 
     async function loop() {
@@ -65,8 +66,8 @@
                 classPrediction = "" + classPrediction + prediction[i].className;
                 blank = false;
             }
-        } 
-        if (blank) {classPrediction = "" + classPrediction + " ";}
+        }
+        if (blank) { classPrediction = "" + classPrediction + " "; }
         labelContainer.innerHTML = classPrediction;
     }
 
