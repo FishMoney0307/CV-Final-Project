@@ -6,6 +6,7 @@
         <div id="webcam-container" class="hide"></div>
         <div id="label-container" class="font"></div>
         <button class="buttonClass" type="button" onclick="predict()">Predict</button> <br>
+        <button class="buttonClass" type="button" onclick="backspace()">Back</button> <br>
         <button class="buttonClass" type="button" onclick="clearPrediction()">Clear</button>
     </div>
 </body>
@@ -78,5 +79,10 @@
     async function clearPrediction() {
         classPrediction = "";
         document.getElementById("label-container").innerHTML = " ";
+    }
+
+    async function backspace () {
+        classPrediction = classPrediction.slice(0, -1);
+        labelContainer.innerHTML = classPrediction;
     }
 </script>
